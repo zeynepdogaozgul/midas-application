@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZDOGA — Zeynep Doğa Özgül for Midas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midas:#4959EA;
+    --midas-deep:#2F3AAE;
+    --midas-fill:#EEF0FB;
+    --ink:#13141A;
+    --ink-soft:#5A5C68;
+    --ink-faint:#9699A6;
+    --line:#E6E7EF;
+    --paper:#FFFFFF;
+    --bg:#F6F6FA;
+    --up:#0E9F6E;
+    --up-fill:#E6F8EF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px 100px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- ticker header ---------- */
+  .ticker-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:30px 32px 26px;
+    margin-top:40px;
+  }
+  .ticker-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:22px;
+  }
+  .ticker-sym{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .ticker-sym .badge{
+    width:38px;height:38px;
+    border-radius:9px;
+    background:var(--midas);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:15px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .ticker-sym .sym{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:.01em;
+  }
+  .ticker-sym .ex{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+  }
+  .ticker-change{
+    text-align:right;
+  }
+  .ticker-change .pct{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:20px;
+    color:var(--up);
+  }
+  .ticker-change .lbl{
+    font-size:12px;
+    color:var(--ink-faint);
+    margin-top:2px;
+  }
+
+  h1.full-name{
+    font-size:27px;
+    font-weight:700;
+    margin:0 0 5px;
+    letter-spacing:-.01em;
+  }
+  .role-line{
+    font-size:15px;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+  }
+  .role-line strong{color:var(--ink);font-weight:600;}
+
+  /* sparkline */
+  .spark-wrap{
+    margin:6px 0 4px;
+  }
+  .spark-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-faint);
+    margin-bottom:8px;
+  }
+  svg.spark{display:block;width:100%;height:auto;}
+  .spark-dates{
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    color:var(--ink-faint);
+    margin-top:4px;
+    gap:4px;
+  }
+  .spark-dates span{white-space:nowrap;}
+
+  /* contact row */
+  .contact-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .contact-row a{color:var(--midas-deep);text-decoration:none;}
+  .contact-row a:hover{text-decoration:underline;}
+
+  /* ---------- thesis / intent ---------- */
+  .thesis{
+    margin:40px 0;
+  }
+  .thesis .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--midas);
+    margin-bottom:12px;
+  }
+  .thesis p{
+    font-size:17px;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .thesis p:last-child{margin-bottom:0;}
+  .thesis strong{color:var(--ink);font-weight:600;}
+
+  /* ---------- key stats (like a stock's key data box) ---------- */
+  .stats-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    margin:40px 0;
+  }
+  .stats-head{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-faint);
+    padding:16px 22px 0;
+  }
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+  .stat-cell{
+    padding:18px 22px;
+    border-top:1px solid var(--line);
+  }
+  .stat-cell:nth-child(odd){border-right:1px solid var(--line);}
+  .stat-cell .k{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-bottom:4px;
+  }
+  .stat-cell .v{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13.5px;
+    font-weight:500;
+    line-height:1.55;
+    color:var(--ink);
+  }
+
+  /* ---------- JD fit / "analyst notes" ---------- */
+  section{margin-bottom:44px;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .sec-head .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    background:var(--midas-fill);
+    color:var(--midas-deep);
+    padding:3px 9px;
+    border-radius:5px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .sec-head h2{
+    font-size:20px;
+    font-weight:700;
+    margin:0;
+  }
+
+  .note-row{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:20px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .note-row:first-child{padding-top:0;}
+  .note-row:last-child{border-bottom:none;}
+  .note-row .req{
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .note-row .req .tg{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:5px;
+  }
+  .note-row .ev{
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .note-row .ev strong{font-weight:600;color:var(--midas-deep);}
+
+  /* ---------- experience as trade log ---------- */
+  .log{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .log-head{
+    display:grid;
+    grid-template-columns:110px 1fr 90px;
+    padding:13px 22px;
+    background:var(--bg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--ink-faint);
+    border-bottom:1px solid var(--line);
+  }
+  .log-row{
+    display:grid;
+    grid-template-columns:110px 1fr 90px;
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .log-row:last-child{border-bottom:none;}
+  .log-row .dt{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    padding-top:2px;
+  }
+  .log-row .role h3{
+    margin:0 0 2px;
+    font-size:15.5px;
+    font-weight:600;
+  }
+  .log-row .role .co{
+    font-size:13px;
+    color:var(--midas-deep);
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .log-row .role p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .log-row .status{
+    text-align:right;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    padding-top:3px;
+  }
+  .status.active{color:var(--up);}
+  .status.closed{color:var(--ink-faint);}
+
+  /* ---------- skills as ticker tags ---------- */
+  .skill-block{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .skill-line{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .skill-line .k{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--ink-faint);
+    width:110px;
+    flex-shrink:0;
+  }
+  .tagrow{display:flex;flex-wrap:wrap;gap:7px;}
+  .tg{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    padding:4px 10px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    background:var(--paper);
+  }
+  .tg.core{
+    background:var(--midas);
+    border-color:var(--midas);
+    color:#fff;
+    font-weight:600;
+  }
+
+  /* ---------- education ---------- */
+  .edu-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+    gap:10px;
+  }
+  .edu-row:last-child{border-bottom:none;}
+  .edu-row h3{margin:0 0 3px;font-size:15px;font-weight:600;}
+  .edu-row p{margin:0;font-size:13.5px;color:var(--ink-soft);}
+  .edu-row .yr{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    margin-top:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+  }
+  footer a{color:var(--midas-deep);text-decoration:none;}
+
+  @media (max-width:600px){
+    .wrap{padding:0 16px 80px;}
+    .ticker-card{padding:24px 20px 22px;}
+    h1.full-name{font-size:22px;}
+    .stats-grid{grid-template-columns:1fr;}
+    .stat-cell:nth-child(odd){border-right:none;}
+    .note-row{grid-template-columns:1fr;gap:6px;}
+    .log-head{display:none;}
+    .log-row{grid-template-columns:1fr;gap:4px;}
+    .log-row .status{text-align:left;margin-top:6px;}
+    .skill-line{flex-direction:column;align-items:flex-start;gap:8px;}
+    .skill-line .k{width:auto;}
+    .edu-row{grid-template-columns:1fr;}
+    .spark-dates{flex-wrap:wrap;justify-content:flex-start;font-size:10.5px;row-gap:5px;column-gap:10px;}
+    .spark-dates span{flex:0 0 auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="ticker-card">
+    <div class="ticker-top">
+      <div class="ticker-sym">
+        <div class="badge">ZD</div>
+        <div>
+          <div class="sym">ZDOGA</div>
+          <div class="ex">PRODUCT SPECIALIST CANDIDATE</div>
+        </div>
+      </div>
+      <div class="ticker-change">
+        <div class="pct">İstanbul</div>
+        <div class="lbl">Türkiye</div>
+      </div>
+    </div>
+
+    <h1 class="full-name">Zeynep Doğa Özgül</h1>
+    <div class="role-line">Industrial Engineering &amp; Economics, <strong>Koç University</strong> — applying for Product Specialist</div>
+
+    <div class="spark-wrap">
+      <div class="spark-label">Building &amp; Learning</div>
+      <svg class="spark" viewBox="0 0 700 90" preserveAspectRatio="none">
+        <polyline points="10,74 140,64 270,54 400,40 530,24 650,14" fill="none" stroke="#D8DBEF" stroke-width="3"/>
+        <polyline points="10,74 140,64 270,54 400,40 530,24 650,14" fill="none" stroke="var(--midas)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="74" r="4" fill="var(--midas)"/>
+        <circle cx="140" cy="64" r="4" fill="var(--midas)"/>
+        <circle cx="270" cy="54" r="4" fill="var(--midas)"/>
+        <circle cx="400" cy="40" r="4" fill="var(--midas)"/>
+        <circle cx="530" cy="24" r="4" fill="var(--midas)"/>
+        <circle cx="650" cy="14" r="6" fill="var(--up)"/>
+      </svg>
+      <div class="spark-dates">
+        <span>Creatiful '22</span>
+        <span>Trampax '23</span>
+        <span>CTNC '24</span>
+        <span>QNB '24</span>
+        <span>PwC '25</span>
+        <span>Unilever now</span>
+      </div>
+    </div>
+
+    <div class="contact-row">
+      <span>zeynepdogaozgul@gmail.com</span>
+      <span>+90 532 601 84 99</span>
+      <a href="https://www.linkedin.com/in/zozgul" target="_blank" rel="noopener">linkedin.com/in/zozgul</a>
+      <span>İstanbul</span>
+    </div>
+  </div>
+
+  <div class="thesis">
+    <div class="kicker">why Midas</div>
+    <p>What attracts me to Midas isn't only the simplicity of the user experience, but the complexity behind making finance feel effortless for millions of people.</p>
+    <p>Throughout my experiences, I have been drawn to environments where solving problems requires understanding systems, analyzing data, and turning insights into action. At Unilever, I manage complex planning operations by using data, improving processes, and leading automation initiatives across different teams.</p>
+    <p>Before that, at QNB Finansbank, I worked with investment products by analyzing fund performance, market trends, and competitors. This gave me exposure to how financial products evolve based on market dynamics and customer needs.</p>
+    <p>What I enjoy most is being at the intersection of data, business, and execution. Whether it is improving an internal process or a customer-facing product, I am motivated by identifying opportunities, understanding why something does not work, and collaborating with different teams to build better solutions.</p>
+    <p>As a Midas user, I have followed the company's journey closely. What excites me most is how Midas has transformed investing in Turkey and continues expanding beyond a traditional brokerage platform into a broader financial ecosystem.</p>
+    <p>I am not applying because I already have all the answers. I am applying because I am curious, learn quickly, take ownership, and genuinely enjoy solving meaningful problems. Midas is where I would like to turn that curiosity into impact.</p>
+  </div>
+
+  <div class="stats-card">
+    <div class="stats-head">key data</div>
+    <div class="stats-grid">
+      <div class="stat-cell"><div class="k">Current role</div><div class="v">Supply Planning Specialist, Unilever — leading data-driven supply planning operations, process improvements, and digital transformation initiatives</div></div>
+      <div class="stat-cell"><div class="k">Education</div><div class="v">Koç University — BSc Industrial Engineering, BA Economics (double major); Financial Engineering &amp; Sustainability Leadership tracks</div></div>
+      <div class="stat-cell"><div class="k">Core tools</div><div class="v">SQL · Python · Power BI · SAP</div></div>
+      <div class="stat-cell"><div class="k">Languages</div><div class="v">Turkish (native) · English (advanced, IELTS Academic)</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="tag">fit</span><h2>How my experience connects to the role</h2></div>
+    <div>
+      <div class="note-row">
+        <div class="req"><span class="tg">from the posting</span>"measure user behavior to identify improvement areas"</div>
+        <div class="ev">At <strong>Unilever</strong>, I analyze complex planning, inventory, and capacity data to identify inefficiencies and turn insights into operational improvements. I enjoy digging into data until it reveals the next action to take.</div>
+      </div>
+      <div class="note-row">
+        <div class="req"><span class="tg">from the posting</span>"act as a layer between product, engineering, design, support teams"</div>
+        <div class="ev">Cross-functional collaboration has been a key part of my experience. At <strong>Unilever</strong>, I coordinate across planning, procurement, factory, and technical teams to deliver operational and digital improvement initiatives. At <strong>CTNC</strong>, I worked with international partners across Europe and Africa on EU-funded innovation projects.</div>
+      </div>
+      <div class="note-row">
+        <div class="req"><span class="tg">from the posting</span>"conduct market research and competitive analysis for new products; assist in executing product strategies and roadmaps"</div>
+        <div class="ev">At <strong>QNB Finansbank</strong> and <strong>Trampax</strong>, I conducted competitor analysis, market research, and strategic evaluations to support product and business decisions.</div>
+      </div>
+      <div class="note-row">
+        <div class="req"><span class="tg">from the posting</span>"understanding of the development lifecycle and the role different systems play"</div>
+        <div class="ev">Through automation initiatives at <strong>Unilever</strong>, including auto-MRP and NTPO projects, I collaborated with technical teams to translate business needs into scalable system solutions.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">log</span><h2>Experience</h2></div>
+    <div class="log">
+      <div class="log-head"><span>date</span><span>role</span><span style="text-align:right"></span></div>
+      <div class="log-row">
+        <div class="dt">Jul 2025 —<br>present</div>
+        <div class="role">
+          <h3>Supply Planning Specialist</h3>
+          <div class="co">Unilever, İstanbul</div>
+          <p>Driving end-to-end supply planning for the Home Care liquids portfolio by transforming operational data into decisions. Partnering with demand planning, procurement, factory, technical, and marketing teams on new product introductions, and leading digital transformation initiatives including auto-MRP and NTPO.</p>
+        </div>
+        <div class="status active">current</div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Jan –<br>Mar 2025</div>
+        <div class="role">
+          <h3>Audit Intern</h3>
+          <div class="co">PwC, İstanbul</div>
+          <p>Analyzed financial data and banking processes to ensure accuracy, compliance, and reliability.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Sep –<br>Dec 2024</div>
+        <div class="role">
+          <h3>Investment Products Management &amp; Gold Banking Intern</h3>
+          <div class="co">QNB Finansbank, İstanbul</div>
+          <p>Analyzed investment products, fund performance, and competitor strategies to identify market opportunities and support product-related decisions.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Jul –<br>Aug 2024</div>
+        <div class="role">
+          <h3>R&amp;D &amp; Business Analyst Summer Intern</h3>
+          <div class="co">CTNC, Murcia, Spain</div>
+          <p>Supported financial analysis for three EU-funded R&amp;D projects (avg. €850,000 budget), monitoring progress and alignment across partner companies from Europe and Africa.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Sep 2023 –<br>Feb 2024</div>
+        <div class="role">
+          <h3>Teaching Assistant — Intermediate Macroeconomics</h3>
+          <div class="co">Koç University, İstanbul</div>
+          <p>Led weekly problem-solving sessions and communicated complex economic concepts in a clear and structured way.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Aug 2023 –<br>Jun 2024</div>
+        <div class="role">
+          <h3>Business Development</h3>
+          <div class="co">Trampax, İstanbul</div>
+          <p>Conducted market research and competitor analysis; contributed to business models, investor presentations, and partnership development in a startup environment.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+      <div class="log-row">
+        <div class="dt">Aug –<br>Nov 2022</div>
+        <div class="role">
+          <h3>Business Analyst</h3>
+          <div class="co">Creatiful Minds, İstanbul</div>
+          <p>Supported strategic planning and market research initiatives, building an early foundation in analytical problem-solving.</p>
+        </div>
+        <div class="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">toolkit</span><h2>Core Toolkit</h2></div>
+    <div class="skill-block">
+      <div class="skill-line">
+        <span class="k">data &amp; analytics</span>
+        <div class="tagrow">
+          <span class="tg core">SQL</span>
+          <span class="tg core">Python</span>
+          <span class="tg core">Power BI</span>
+          <span class="tg">SAP</span>
+        </div>
+      </div>
+      <div class="skill-line">
+        <span class="k">product &amp; strategy</span>
+        <div class="tagrow">
+          <span class="tg">Market research</span>
+          <span class="tg">Competitive analysis</span>
+          <span class="tg">Product thinking</span>
+        </div>
+      </div>
+      <div class="skill-line">
+        <span class="k">design &amp; collaboration</span>
+        <div class="tagrow">
+          <span class="tg">Figma</span>
+          <span class="tg">Microsoft Office</span>
+          <span class="tg">Canva</span>
+        </div>
+      </div>
+      <div class="skill-line">
+        <span class="k">languages</span>
+        <div class="tagrow">
+          <span class="tg">Turkish — native</span>
+          <span class="tg">English — advanced (IELTS)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">background</span><h2>Education</h2></div>
+    <div>
+      <div class="edu-row">
+        <div><h3>Koç University</h3><p>Industrial Engineering (major) · BA Economics (double major) · Financial Engineering &amp; Global Learning &amp; Leadership for Sustainability (tracks)</p></div>
+        <div class="yr">2021 — 2025</div>
+      </div>
+      <div class="edu-row">
+        <div><h3>Hong Kong Baptist University</h3><p>Social Innovation and Entrepreneurship · Government Ethics</p></div>
+        <div class="yr">Summer 2023</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Zeynep Doğa Özgül | Product Specialist Candidate</span>
+    <a href="https://www.linkedin.com/in/zozgul" target="_blank" rel="noopener">linkedin.com/in/zozgul →</a>
+  </footer>
+
+</div>
+</body>
+</html>
